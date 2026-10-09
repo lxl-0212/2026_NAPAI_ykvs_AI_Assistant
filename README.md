@@ -1,26 +1,17 @@
-# 鶯歌工商 YKVS Mini AI Assistant
+# YKVS AI Assistant — Stable Render Version
 
-這是一個可部署到 Render 的動態網站版本。
+這個版本把 MCP stdio server 改成 Python 標準函式庫實作，不依賴 Python `mcp` 套件，避免 Render 啟動時因 Python 套件或 FastMCP 版本造成服務退出。
 
-## 架構
-- 前端：`public/index.html`
-- 後端：Node.js + Express (`server.js`)
-- 校務資料：`data/`
-- AI：Gemini OpenAI-compatible API
-- `/chat`：動態問答 API
-- `/health`：健康檢查
+## GitHub 根目錄
 
-## Render 環境變數
-- `GEMINI_API_KEY`：Gemini API Key
-- `OPENAI_BASE_URL`：`https://generativelanguage.googleapis.com/v1beta/openai/`（可省略，server 有預設值）
-- `OPENAI_MODEL`：例如 `gemini-3.1-flash-lite`（可省略）
+`server.js`、`mcp-client.js`、`hello_tool.py`、`llm-client-openai.js`、`quick-reply.js`、`package.json`、`render.yaml`、`public/`、`data/` 必須位於同一個專案根目錄。
 
-## 本機執行
-```bash
-npm install
-npm start
-```
+## Render
 
-開啟 `http://localhost:3000`。
+Build Command: `npm install`
 
-> 注意：不要把 API Key 寫進 GitHub，也不要把 `.env` 上傳。
+Start Command: `node server.js`
+
+Health Check: `/healthz`
+
+如果設定 `GEMINI_API_KEY` 或 `OPENAI_API_KEY`，系統會使用 LLM 做自然語言整理；即使沒有 API Key，校務查詢仍會用 MCP 資料產生可讀的自然語言回答。
